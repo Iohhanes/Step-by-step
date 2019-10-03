@@ -1,0 +1,29 @@
+div.registration-ref a {
+    color: purple;
+}
+
+.form-control {
+    text-align: center;
+}
+
+.first-input {
+    margin-top: 100px;
+}
+
+.text-center {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.sign-in{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.registration-ref {
+    text-align: center;
+}
