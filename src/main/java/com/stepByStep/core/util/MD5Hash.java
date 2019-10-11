@@ -16,6 +16,10 @@ public class MD5Hash {
     private static Logger LOGGER = Logger.getLogger(MD5Hash.class);
 
     public static String getHash(String password) {
+        if (password == null) {
+            return password;
+        }
+        String hash = password;
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM_MD5);
 
@@ -27,11 +31,11 @@ public class MD5Hash {
                         .toString((byteData & MAX_BYTE_VALUE_IN_HEX) + HEX_OFFSET, RADIX_HEX)
                         .substring(BEGIN_INDEX_NUMBER_IN_HEX));
             }
-            return hashText.toString();
+            hash = hashText.toString();
         } catch (NoSuchAlgorithmException exception) {
             LOGGER.error(MESSAGE_HASH_FAILED);
-            return password;
         }
+        return hash;
     }
 
     public static boolean checkHash(String plaintext, String hashed) {

@@ -1,34 +1,38 @@
 package com.stepByStep.core.model.entity;
 
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "board_games")
 @EqualsAndHashCode
-@ToString
 public class BoardGame {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
     private String description;
 
-    private Double price;
+    @Column(nullable = false)
+    private double price;
     @Column(name = "average_age")
-    private Integer averageAge;
+    private int averageAge;
     @Column(name = "count_players")
-    private Integer countPlayers;
+    private int countPlayers;
     private String filename;
 
-    public BoardGame(){
+    public BoardGame() {
 
+    }
+
+    public BoardGame(String title, Double price) {
+        this.title = title;
+        this.price = price;
     }
 
     public Long getId() {
@@ -55,19 +59,27 @@ public class BoardGame {
         this.description = description;
     }
 
-    public Integer getAverageAge() {
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getAverageAge() {
         return averageAge;
     }
 
-    public void setAverageAge(Integer averageAge) {
+    public void setAverageAge(int averageAge) {
         this.averageAge = averageAge;
     }
 
-    public Integer getCountPlayers() {
+    public int getCountPlayers() {
         return countPlayers;
     }
 
-    public void setCountPlayers(Integer countPlayers) {
+    public void setCountPlayers(int countPlayers) {
         this.countPlayers = countPlayers;
     }
 

@@ -6,12 +6,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @EqualsAndHashCode
-@ToString
 public class User implements UserDetails {
 
     @Id
@@ -22,12 +22,30 @@ public class User implements UserDetails {
     private String password;
     private boolean active;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name="user_roles",joinColumns = @JoinColumn(name = "user_id"))
-    private Set<Role> roles;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
 
-    public User(){
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Order> orders;
 
+//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+//    private Set<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public User() {
+        this.orders = new HashSet<>();
+    }
+
+    public User(String username, String password, boolean active, Cart cart, Set<Order> orders, Role role) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.cart = cart;
+        this.orders = orders;
+        this.role = role;
     }
 
     public Long getId() {
@@ -64,16 +82,32 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public boolean isAdmin(){
-        return roles.contains(Role.ADMIN);
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
+    public boolean isAdmin() {
+        return role==Role.ADMIN;
     }
 
     @Override
