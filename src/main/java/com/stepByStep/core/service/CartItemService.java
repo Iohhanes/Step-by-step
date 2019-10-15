@@ -1,7 +1,9 @@
 package com.stepByStep.core.service;
 
+import com.stepByStep.core.model.entity.BoardGame;
 import com.stepByStep.core.model.entity.Cart;
 import com.stepByStep.core.model.entity.CartItem;
+import com.stepByStep.core.util.exceptions.ServiceException;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ public interface CartItemService {
     void delete(CartItem cartItem);
 
     void deleteAllByCart(Cart cart);
+
+    CartItem createNewCartItem(BoardGame boardGame, int quantity) throws ServiceException;
 
     List<CartItem> findByCart(Cart cart);
 

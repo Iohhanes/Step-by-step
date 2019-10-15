@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class OrderSrviceImpl implements OrderService {
+public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
     private OrderBoardGameService orderBoardGameService;
 
     @Autowired
-    public OrderSrviceImpl(OrderRepository orderRepository, OrderBoardGameService orderBoardGameService) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderBoardGameService orderBoardGameService) {
         this.orderRepository = orderRepository;
         this.orderBoardGameService = orderBoardGameService;
     }

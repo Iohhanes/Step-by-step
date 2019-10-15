@@ -2,6 +2,7 @@ package com.stepByStep.core.service;
 
 import com.stepByStep.core.model.entity.Cart;
 import com.stepByStep.core.model.entity.CartItem;
+import com.stepByStep.core.util.exceptions.ServiceException;
 
 public interface CartService {
 
@@ -11,7 +12,10 @@ public interface CartService {
 
     Cart findById(Long cartId);
 
-    void clear(Long cartId);
+    void clearUserCart(Cart cart);
 
-    void update(Cart cart, CartItem cartItem);
+    void extendUserCart(Cart cart, CartItem cartItem) throws ServiceException;
+
+    void reduceUserCart(Cart cart, CartItem cartItem) throws ServiceException;
+
 }

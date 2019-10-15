@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RegistrationController {
@@ -23,8 +24,8 @@ public class RegistrationController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registerUser(User user){
-        if(!(userService.addUser(user))){
+    public String registerUser(@RequestParam String username, @RequestParam String password){
+        if(!(userService.addUser(username,password))){
             return "registration";
         }
         return "redirect:/login";

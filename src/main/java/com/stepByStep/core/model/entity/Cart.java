@@ -12,7 +12,7 @@ import java.util.List;
 public class Cart {
 
     public static final int DEFAULT_TOTAL_COUNT_ITEMS = 0;
-    public static final int DEFAULT_TOTAL_COST = 0;
+    public static final double DEFAULT_TOTAL_COST = 0.0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +30,7 @@ public class Cart {
     private int totalCountItems;
 
     @Column(name = "total_cost")
-    private int totalCost;
+    private double totalCost;
 
     public Cart() {
         init();
@@ -79,11 +79,11 @@ public class Cart {
         this.totalCountItems = totalCountItems;
     }
 
-    public int getTotalCost() {
+    public double getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(int totalCost) {
+    public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
     }
 

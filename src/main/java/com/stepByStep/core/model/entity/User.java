@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "users")
@@ -36,14 +36,14 @@ public class User implements UserDetails {
     private Role role;
 
     public User() {
-        this.orders = new HashSet<>();
+
     }
 
-    public User(String username, String password, boolean active, Cart cart, Set<Order> orders, Role role) {
+    @Builder
+    public User(String username, String password, boolean active,Set<Order> orders, Role role) {
         this.username = username;
         this.password = password;
         this.active = active;
-        this.cart = cart;
         this.orders = orders;
         this.role = role;
     }
@@ -134,4 +134,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return isActive();
     }
+
 }

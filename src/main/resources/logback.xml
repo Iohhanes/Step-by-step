@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOGS" value="./logs"/>
+    <property name="LOGS" value="logs"/>
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -19,14 +19,14 @@
             <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
         </encoder>
 
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily and when the file reaches 10 MegaBytes -->
-            <fileNamePattern>${LOGS}/archived/step_by_step_log-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>10MB</maxFileSize>
-            <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
-            <totalSizeCap>6GB</totalSizeCap>
-            <!-- 60 days to keep -->
-            <maxHistory>30</maxHistory>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/archived/step_by_step_log.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+<!--            <timeBasedFileNamingAndTriggeringPolicy-->
+<!--                    class="ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicy">-->
+                <maxFileSize>10MB</maxFileSize>
+                <totalSizeCap>6GB</totalSizeCap>
+                <maxHistory>30</maxHistory>
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
         </rollingPolicy>
     </appender>
 
