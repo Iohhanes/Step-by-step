@@ -7,13 +7,11 @@ import com.stepByStep.core.repository.CartRepository;
 import com.stepByStep.core.repository.UserRepository;
 import com.stepByStep.core.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.HashSet;
 
 @Slf4j

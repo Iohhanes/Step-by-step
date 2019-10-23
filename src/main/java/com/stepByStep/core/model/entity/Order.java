@@ -1,9 +1,11 @@
 package com.stepByStep.core.model.entity;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -45,6 +47,16 @@ public class Order {
 
     public Order() {
 
+    }
+
+    @Builder
+    public Order(OrderBoardGame orderBoardGame, String email, String phone, String name) {
+        this.orderBoardGame = orderBoardGame;
+        this.email = email;
+        this.phone = phone;
+        this.name = name;
+        this.dateCreated = new Date();
+        this.status = OrderStatus.WAITED_PROCESSING;
     }
 
     public Long getId() {
@@ -110,4 +122,5 @@ public class Order {
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
+
 }
