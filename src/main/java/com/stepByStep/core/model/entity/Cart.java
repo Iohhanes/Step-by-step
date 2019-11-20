@@ -5,10 +5,10 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "carts")
-@EqualsAndHashCode
 public class Cart {
 
     public static final int DEFAULT_TOTAL_COUNT_ITEMS = 0;
@@ -87,4 +87,21 @@ public class Cart {
         this.totalCost = totalCost;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cart cart = (Cart) o;
+        return totalCountItems == cart.totalCountItems &&
+                Double.compare(cart.totalCost, totalCost) == 0 &&
+                id.equals(cart.id) &&
+                Objects.equals(user, cart.user) &&
+                items.equals(cart.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, items, totalCountItems, totalCost);
+    }
 }

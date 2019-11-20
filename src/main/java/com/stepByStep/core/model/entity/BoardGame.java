@@ -12,6 +12,7 @@ public class BoardGame {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "board_game_id")
     private Long id;
 
     @Column(nullable = false)

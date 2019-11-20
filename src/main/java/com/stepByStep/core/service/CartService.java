@@ -16,6 +16,6 @@ public interface CartService {
 
     void extendUserCart(Cart cart, CartItem cartItem) throws ServiceException;
 
-    void reduceUserCart(Cart cart, CartItem cartItem) throws ServiceException;
+    void reduceUserCart(Cart cart, CartItem cartItem,int quantity) throws ServiceException;
 
 }

@@ -3,18 +3,17 @@ package com.stepByStep.core.model.entity;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "order_board_games")
+@Table(name = "order_items")
 @EqualsAndHashCode
-public class OrderBoardGame {
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_order_id", nullable = false)
     @OneToOne(optional = false)
     @JoinColumn(name = "user_order_id", unique = true, nullable = false)
     private Order order;
@@ -26,11 +25,11 @@ public class OrderBoardGame {
     @Column(name = "quantity")
     private int quantity;
 
-    public OrderBoardGame() {
+    public OrderItem() {
 
     }
 
-    public OrderBoardGame(Order order, BoardGame boardGame, int quantity) {
+    public OrderItem(Order order, BoardGame boardGame, int quantity) {
         this.order = order;
         this.boardGame = boardGame;
         this.quantity = quantity;
@@ -67,4 +66,5 @@ public class OrderBoardGame {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }

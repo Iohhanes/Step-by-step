@@ -10,15 +10,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.*;
+import static com.stepByStep.core.util.constants.DataPermissibleConstant.*;
+
 import java.util.List;
 
 @Slf4j
 @Service
 public class CartServiceImpl implements CartService {
 
-    public static final int INIT_TOTAL_CART_ITEMS_COUNT_VALUE = 0;
-    public static final double INIT_TOTAL_CART_ITEMS_COST_VALUE = 0.0;
-    public static final String CART_ITEM_IS_NULL_EXCEPTION = "Input cart item is null";
+    private static final int INIT_TOTAL_CART_ITEMS_COUNT_VALUE = 0;
+    private static final double INIT_TOTAL_CART_ITEMS_COST_VALUE = 0.0;
 
     private CartRepository cartRepository;
     private CartItemService cartItemService;
@@ -46,8 +48,14 @@ public class CartServiceImpl implements CartService {
         checkNullCartItem(cartItem);
         List<CartItem> items = cart.getItems();
         if (items.contains(cartItem)) {
-            int index = items.indexOf(cartItem);
-            items.get(index).setQuantity(items.get(index).getQuantity() + cartItem.getQuantity());
+            CartItem currentCartItem = items.get(items.indexOf(cartItem));
+            int newCartItemQuantity = cartItem.getQuantity() + currentCartItem.getQuantity();
+            if (newCartItemQuantity <= MIN_PERMISSIBLE_QUANTITY_ITEM ||
+                    newCartItemQuantity >= MAX_PERMISSIBLE_QUANTITY_ITEM) {
+                log.warn(INVALID_ITEM_QUANTITY_EXCEPTION + cartItem.getQuantity());
+                throw new ServiceException(INVALID_ITEM_QUANTITY_EXCEPTION + cartItem.getQuantity());
+            }
+            currentCartItem.setQuantity(newCartItemQuantity);
         } else {
             items.add(cartItem);
             cartItem.setCart(cart);
@@ -57,12 +65,21 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void reduceUserCart(Cart cart, CartItem cartItem) throws ServiceException {
+    public void reduceUserCart(Cart cart, CartItem cartItem, int quantity) throws ServiceException {
         checkNullCartItem(cartItem);
         List<CartItem> items = cart.getItems();
         if (items.contains(cartItem)) {
-            items.remove(cartItem);
-            cartItemService.delete(cartItem);
+            if (quantity == cartItem.getQuantity()) {
+                items.remove(cartItem);
+                cartItemService.delete(cartItem);
+            } else {
+                CartItem currentCartItem = items.get(items.indexOf(cartItem));
+                if (quantity <= MIN_PERMISSIBLE_QUANTITY_ITEM || quantity > currentCartItem.getQuantity()) {
+                    log.warn(INVALID_ITEM_QUANTITY_EXCEPTION + quantity);
+                    throw new ServiceException(INVALID_ITEM_QUANTITY_EXCEPTION + quantity);
+                }
+                currentCartItem.setQuantity(currentCartItem.getQuantity() - quantity);
+            }
             revalidateCartMetrics(cart);
         }
     }

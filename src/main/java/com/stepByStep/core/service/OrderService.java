@@ -1,7 +1,7 @@
 package com.stepByStep.core.service;
 
 import com.stepByStep.core.model.entity.Order;
-import com.stepByStep.core.model.entity.OrderBoardGame;
+import com.stepByStep.core.model.entity.OrderItem;
 import com.stepByStep.core.model.entity.User;
 import com.stepByStep.core.util.exceptions.ServiceException;
 
@@ -17,7 +17,7 @@ public interface OrderService {
 
     List<Order> findAllByUser(User user);
 
-    void place(User user, OrderBoardGame orderBoardGame, String name, String email, String phone)
+    void place(User user, OrderItem orderItem, String name, String email, String phone)
             throws ServiceException;
 
 }

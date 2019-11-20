@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class Order {
 //    private Set<OrderBoardGame> orderBoardGames;
 
     @OneToOne(mappedBy = "order")
-    private OrderBoardGame orderBoardGame;
+    private OrderItem orderItem;
 
     @Column(nullable = false)
     private String email;
@@ -50,13 +51,14 @@ public class Order {
     }
 
     @Builder
-    public Order(OrderBoardGame orderBoardGame, String email, String phone, String name) {
-        this.orderBoardGame = orderBoardGame;
+    public Order(User user, OrderItem orderItem, String email, String phone, String name) {
+        this.user=user;
+        this.orderItem = orderItem;
         this.email = email;
         this.phone = phone;
         this.name = name;
         this.dateCreated = new Date();
-        this.status = OrderStatus.WAITED_PROCESSING;
+        this.status = OrderStatus.WAITED_DELIVERY;
     }
 
     public Long getId() {
@@ -75,12 +77,12 @@ public class Order {
         this.user = user;
     }
 
-    public OrderBoardGame getOrderBoardGame() {
-        return orderBoardGame;
+    public OrderItem getOrderItem() {
+        return orderItem;
     }
 
-    public void setOrderBoardGame(OrderBoardGame orderBoardGame) {
-        this.orderBoardGame = orderBoardGame;
+    public void setOrderItem(OrderItem orderItem) {
+        this.orderItem = orderItem;
     }
 
     public String getEmail() {

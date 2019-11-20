@@ -12,10 +12,7 @@ public interface BoardGameService {
 
     void delete(BoardGame boardGame);
 
-    void post(String name, double price, int averageAge, int countPLayers, String description,
-              MultipartFile file)throws ServiceException;
-
-    void edit(BoardGame boardGame);
+    void post(String name, double price, int averageAge, int countPLayers, String description, MultipartFile file);
 
     BoardGame findById(Long boardGameId);
 

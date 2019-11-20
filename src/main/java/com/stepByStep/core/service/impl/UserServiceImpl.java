@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -18,15 +19,26 @@ import java.util.HashSet;
 @Service
 public class UserServiceImpl implements UserService {
 
-    public static final String USER_IS_NULL_WARN_MESSAGE = "Warning! User is null";
-
     private UserRepository userRepository;
     private CartRepository cartRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,CartRepository cartRepository) {
+    public UserServiceImpl(UserRepository userRepository, CartRepository cartRepository,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.cartRepository=cartRepository;
+        this.cartRepository = cartRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 
     @Override
@@ -38,8 +50,7 @@ public class UserServiceImpl implements UserService {
         } else {
             userFromDb = User.builder()
                     .username(username)
-                    .password(password)
-                    .active(true)
+                    .password(passwordEncoder.encode(password))
                     .orders(new HashSet<>())
                     .role(Role.USER)
                     .build();

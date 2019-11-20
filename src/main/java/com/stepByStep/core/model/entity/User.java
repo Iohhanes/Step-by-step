@@ -8,10 +8,8 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
-
 @Entity
 @Table(name = "users")
-@EqualsAndHashCode
 public class User implements UserDetails {
 
     @Id
@@ -20,17 +18,12 @@ public class User implements UserDetails {
 
     private String username;
     private String password;
-    private boolean active;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Order> orders;
-
-//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-//    private Set<Role> roles;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -40,10 +33,9 @@ public class User implements UserDetails {
     }
 
     @Builder
-    public User(String username, String password, boolean active,Set<Order> orders, Role role) {
+    public User(String username, String password, Set<Order> orders, Role role) {
         this.username = username;
         this.password = password;
-        this.active = active;
         this.orders = orders;
         this.role = role;
     }
@@ -74,14 +66,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -107,7 +91,7 @@ public class User implements UserDetails {
     }
 
     public boolean isAdmin() {
-        return role==Role.ADMIN;
+        return role == Role.ADMIN;
     }
 
     @Override
@@ -132,7 +116,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isActive();
+        return true;
     }
 
 }

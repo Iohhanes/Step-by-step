@@ -1,24 +1,29 @@
-nav.navbar{
+nav.navbar {
     background-color: purple;
 }
 
-nav.navbar-light .navbar-brand{
-    color: azure;
-}
-nav.navbar-light .navbar-brand:hover{
+nav.navbar-light .navbar-brand {
     color: azure;
 }
 
-nav.navbar-light .navbar-nav .nav-link{
+nav.navbar-light .navbar-brand:hover {
     color: azure;
 }
+
+nav.navbar-light .navbar-nav .nav-link {
+    color: azure;
+}
+
 .navbar-light .navbar-nav .nav-link:hover {
     color: azure;
 }
 
-
-button.btn{
+button.btn {
     background-color: lightgreen;
+}
+
+.navbar-light .navbar-text {
+    color: azure;
 }
 
 

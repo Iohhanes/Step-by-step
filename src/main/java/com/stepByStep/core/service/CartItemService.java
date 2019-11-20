@@ -17,6 +17,10 @@ public interface CartItemService {
 
     CartItem createNewCartItem(BoardGame boardGame, int quantity) throws ServiceException;
 
+    CartItem findById(Long cartItemId);
+
+    CartItem findByBoardGame(BoardGame boardGame);
+
     List<CartItem> findByCart(Cart cart);
 
     List<CartItem> findAll();
