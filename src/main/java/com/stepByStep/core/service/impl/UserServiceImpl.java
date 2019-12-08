@@ -1,7 +1,5 @@
 package com.stepByStep.core.service.impl;
 
-import com.stepByStep.core.model.entity.Cart;
-import com.stepByStep.core.model.entity.Role;
 import com.stepByStep.core.model.entity.User;
 import com.stepByStep.core.repository.CartRepository;
 import com.stepByStep.core.repository.UserRepository;
@@ -13,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.USERNAME_NOT_FOUND_MESSAGE;
 
 @Slf4j
 @Service
@@ -42,27 +40,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addUser(String username, String password) {
-        boolean resultAdding = true;
-        User userFromDb = userRepository.findByUsername(username);
-        if (userFromDb != null) {
-            resultAdding = false;
-        } else {
-            userFromDb = User.builder()
-                    .username(username)
-                    .password(passwordEncoder.encode(password))
-                    .orders(new HashSet<>())
-                    .role(Role.USER)
-                    .build();
-            userFromDb.setCart(new Cart(userFromDb));
-            userRepository.save(userFromDb);
-            cartRepository.save(userFromDb.getCart());
-        }
-        return resultAdding;
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
+    @Override
+    public void addUser(String username, String password) {
+        User newUser = User.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .build();
+        userRepository.save(newUser);
+        cartRepository.save(newUser.getCart());
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            log.warn(USERNAME_NOT_FOUND_MESSAGE);
+            throw new UsernameNotFoundException(USERNAME_NOT_FOUND_MESSAGE);
+        }
+        return user;
     }
 }

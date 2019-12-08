@@ -1,0 +1,1 @@
+delete from board_games;

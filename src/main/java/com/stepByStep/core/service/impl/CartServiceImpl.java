@@ -5,18 +5,24 @@ import com.stepByStep.core.model.entity.CartItem;
 import com.stepByStep.core.repository.CartRepository;
 import com.stepByStep.core.service.CartItemService;
 import com.stepByStep.core.service.CartService;
+import com.stepByStep.core.util.ShopElementIsNullChecker;
+import com.stepByStep.core.util.exceptions.NullParameterException;
 import com.stepByStep.core.util.exceptions.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.*;
-import static com.stepByStep.core.util.constants.DataPermissibleConstant.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.stepByStep.core.util.constants.DataPermissibleConstant.MAX_PERMISSIBLE_QUANTITY_ITEM;
+import static com.stepByStep.core.util.constants.DataPermissibleConstant.MIN_PERMISSIBLE_QUANTITY_ITEM;
+import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.INPUT_CART_ITEM_IS_NULL_EXCEPTION;
+import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.INVALID_ITEM_QUANTITY_EXCEPTION;
+
 @Slf4j
 @Service
+@Transactional
 public class CartServiceImpl implements CartService {
 
     private static final int INIT_TOTAL_CART_ITEMS_COUNT_VALUE = 0;
@@ -42,10 +48,13 @@ public class CartServiceImpl implements CartService {
         cartItemService.deleteAllByCart(cart);
     }
 
+    public List<Cart> findAll() {
+        return cartRepository.findAll();
+    }
 
     @Override
-    public void extendUserCart(Cart cart, CartItem cartItem) throws ServiceException {
-        checkNullCartItem(cartItem);
+    public void extendUserCart(Cart cart, CartItem cartItem) throws NullParameterException, ServiceException {
+        ShopElementIsNullChecker.checkNull(cartItem, new NullParameterException(INPUT_CART_ITEM_IS_NULL_EXCEPTION));
         List<CartItem> items = cart.getItems();
         if (items.contains(cartItem)) {
             CartItem currentCartItem = items.get(items.indexOf(cartItem));
@@ -65,8 +74,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void reduceUserCart(Cart cart, CartItem cartItem, int quantity) throws ServiceException {
-        checkNullCartItem(cartItem);
+    public void reduceUserCart(Cart cart, CartItem cartItem, int quantity)
+            throws NullParameterException, ServiceException {
+        ShopElementIsNullChecker.checkNull(cartItem, new NullParameterException(INPUT_CART_ITEM_IS_NULL_EXCEPTION));
         List<CartItem> items = cart.getItems();
         if (items.contains(cartItem)) {
             if (quantity == cartItem.getQuantity()) {
@@ -92,15 +102,16 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart findById(Long cartId) {
-        return cartRepository.findById(cartId).orElse(null);
+    public void updateAll() {
+        List<Cart> carts = cartRepository.findAll();
+        for (Cart cart : carts) {
+            revalidateCartMetrics(cart);
+        }
     }
 
-    private void checkNullCartItem(CartItem cartItem) throws ServiceException {
-        if (cartItem == null) {
-            log.warn(CART_ITEM_IS_NULL_EXCEPTION);
-            throw new ServiceException(CART_ITEM_IS_NULL_EXCEPTION);
-        }
+    @Override
+    public Cart findById(Long cartId) {
+        return cartRepository.findById(cartId).orElse(null);
     }
 
     private void revalidateCartMetrics(Cart cart) {
@@ -112,6 +123,7 @@ public class CartServiceImpl implements CartService {
         }
         cart.setTotalCost(totalCost);
         cart.setTotalCountItems(totalCountItems);
-        cartRepository.save(cart);
+        save(cart);
     }
+
 }

@@ -1,32 +1,27 @@
 package com.stepByStep.core.model.entity;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
-@EqualsAndHashCode
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-
-//    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private Set<OrderBoardGame> orderBoardGames;
-
-    @OneToOne(mappedBy = "order")
-    private OrderItem orderItem;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "board_game_id")
+    private BoardGame boardGame;
 
     @Column(nullable = false)
     private String email;
@@ -36,6 +31,9 @@ public class Order {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private int quantity;
 
     @Column(name = "date_created", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -51,12 +49,13 @@ public class Order {
     }
 
     @Builder
-    public Order(User user, OrderItem orderItem, String email, String phone, String name) {
-        this.user=user;
-        this.orderItem = orderItem;
+    public Order(User user, BoardGame boardGame, String email, String phone, String name, int quantity) {
+        this.user = user;
+        this.boardGame = boardGame;
         this.email = email;
         this.phone = phone;
         this.name = name;
+        this.quantity = quantity;
         this.dateCreated = new Date();
         this.status = OrderStatus.WAITED_DELIVERY;
     }
@@ -77,12 +76,12 @@ public class Order {
         this.user = user;
     }
 
-    public OrderItem getOrderItem() {
-        return orderItem;
+    public BoardGame getBoardGame() {
+        return boardGame;
     }
 
-    public void setOrderItem(OrderItem orderItem) {
-        this.orderItem = orderItem;
+    public void setBoardGame(BoardGame boardGame) {
+        this.boardGame = boardGame;
     }
 
     public String getEmail() {
@@ -109,6 +108,14 @@ public class Order {
         this.name = name;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -125,4 +132,24 @@ public class Order {
         this.status = status;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return quantity == order.quantity &&
+                id.equals(order.id) &&
+                user.equals(order.user) &&
+                boardGame.equals(order.boardGame) &&
+                email.equals(order.email) &&
+                phone.equals(order.phone) &&
+                name.equals(order.name) &&
+                dateCreated.equals(order.dateCreated) &&
+                status == order.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, boardGame, email, phone, name, quantity, dateCreated, status);
+    }
 }

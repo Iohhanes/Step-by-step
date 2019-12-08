@@ -1,39 +1,52 @@
 package com.stepByStep.core.model.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Builder;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "board_games")
-@EqualsAndHashCode
 public class BoardGame {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "board_game_id")
+    @Column(name = "board_game_id", updatable = false, insertable = false)
     private Long id;
 
     @Column(nullable = false)
     private String title;
+
     private String description;
 
     @Column(nullable = false)
     private double price;
-    @Column(name = "average_age")
-    private int averageAge;
+
+    @Column(name = "age")
+    private int age;
+
     @Column(name = "count_players")
     private int countPlayers;
+
     private String filename;
 
     public BoardGame() {
 
     }
 
-    public BoardGame(String title, Double price) {
+    public BoardGame(String title, double price) {
         this.title = title;
         this.price = price;
+    }
+
+    @Builder
+    public BoardGame(String title, double price, int age, int countPlayers, String description, String filename) {
+        this.title = title;
+        this.price = price;
+        this.age = age;
+        this.countPlayers = countPlayers;
+        this.description = description;
+        this.filename = filename;
     }
 
     public Long getId() {
@@ -68,12 +81,12 @@ public class BoardGame {
         this.price = price;
     }
 
-    public int getAverageAge() {
-        return averageAge;
+    public int getAge() {
+        return age;
     }
 
-    public void setAverageAge(int averageAge) {
-        this.averageAge = averageAge;
+    public void setAge(int averageAge) {
+        this.age = averageAge;
     }
 
     public int getCountPlayers() {
@@ -90,5 +103,24 @@ public class BoardGame {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BoardGame boardGame = (BoardGame) o;
+        return Double.compare(boardGame.price, price) == 0 &&
+                age == boardGame.age &&
+                countPlayers == boardGame.countPlayers &&
+                id.equals(boardGame.id) &&
+                title.equals(boardGame.title) &&
+                Objects.equals(description, boardGame.description) &&
+                Objects.equals(filename, boardGame.filename);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, price, age, countPlayers, filename);
     }
 }

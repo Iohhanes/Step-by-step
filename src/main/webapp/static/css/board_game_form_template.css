@@ -1,0 +1,33 @@
+.apply{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.text-center {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.form-control {
+    text-align: center;
+}
+
+.first-input {
+    margin-top: 50px;
+}
+
+.alert.alert-danger{
+    margin-top: 10px;
+}
+
+.row{
+    display: block;
+}
+
+.changes-cancel{
+    text-align: center;
+}

@@ -2,33 +2,35 @@ package com.stepByStep.core.service.impl;
 
 import com.stepByStep.core.service.StorageService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
 
 @Slf4j
 @Service
+@PropertySource("classpath:application.properties")
 public class StorageServiceImpl implements StorageService {
 
-    @Value("${upload.path}")
-    private String uploadPath;
+    private Environment environment;
+
+    @Autowired
+    public StorageServiceImpl(Environment environment) {
+        this.environment = environment;
+    }
 
     @Override
     public String loadImage(MultipartFile file) {
         String filename = null;
         if (file != null && !file.isEmpty()) {
             String uuidFile = UUID.randomUUID().toString();
-            String newFilename = uuidFile + "." + file.getOriginalFilename();
-            try (BufferedOutputStream stream =
-                         new BufferedOutputStream(new FileOutputStream(new File(uploadPath + newFilename)))) {
-                byte[] bytes = file.getBytes();
-                stream.write(bytes);
+            String newFilename = uuidFile + file.getOriginalFilename();
+            try {
+                file.transferTo(new File(environment.getProperty("upload.path") + newFilename));
                 filename = newFilename;
             } catch (IOException exception) {
                 log.warn(exception.toString());

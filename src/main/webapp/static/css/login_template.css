@@ -27,3 +27,7 @@ div.registration-ref a {
 .registration-ref {
     text-align: center;
 }
+
+.alert.alert-danger{
+    margin-top: 10px;
+}

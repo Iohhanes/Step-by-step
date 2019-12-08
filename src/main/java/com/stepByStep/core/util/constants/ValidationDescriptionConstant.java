@@ -11,4 +11,12 @@ public interface ValidationDescriptionConstant {
     String INVALID_EMAIL_IN_ORDER_MESSAGE = "Incorrect email";
     String INVALID_PHONE_IN_ORDER_MESSAGE =
             "The phone number cannot be less than 7 characters and must contain only numbers";
+    String INVALID_TITLE_MESSAGE = "Please use between 3 and 50 characters";
+    String INVALID_PRICE_MESSAGE = "The price cannot be less than 0,01$ and more than 1500$";
+    String INVALID_DESCRIPTION_MESSAGE = "The description cannot be more than 255 characters";
+    String INVALID_AGE_MESSAGE = "The age cannot be less than 0 and more than 18 years";
+    String INVALID_COUNT_PLAYERS_MESSAGE = "The count of players cannot be less than 0 and more than 8";
+    String INVALID_QUANTITY_ITEM_IN_STORE = "The quantity cannot be less than 0 and more than 2147483646";
+    String INVALID_QUANTITY_ITEM_IN_CART = "Tne quantity cannot be less than 0 and more than set";
+    String INVALID_QUANTITY_BOARD_GAME_IN_ORDER = "Tne quantity cannot be less than 0 and more than set in cart item";
 }

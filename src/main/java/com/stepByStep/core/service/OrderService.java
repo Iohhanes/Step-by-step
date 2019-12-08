@@ -1,8 +1,8 @@
 package com.stepByStep.core.service;
 
 import com.stepByStep.core.model.entity.Order;
-import com.stepByStep.core.model.entity.OrderItem;
 import com.stepByStep.core.model.entity.User;
+import com.stepByStep.core.util.exceptions.NullParameterException;
 import com.stepByStep.core.util.exceptions.ServiceException;
 
 import java.util.List;
@@ -17,7 +17,6 @@ public interface OrderService {
 
     List<Order> findAllByUser(User user);
 
-    void place(User user, OrderItem orderItem, String name, String email, String phone)
-            throws ServiceException;
+    void place(User user, Order order) throws NullParameterException, ServiceException;
 
 }

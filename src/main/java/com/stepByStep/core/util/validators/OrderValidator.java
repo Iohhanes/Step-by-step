@@ -32,6 +32,10 @@ public class OrderValidator implements Validator {
         validatePhone(order, errors);
     }
 
+    public void validateQuantity(){
+
+    }
+
     private void validateName(Order order, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, NAME_IN_ORDER_FIELD_NAME, EMPTY_FIELD_MESSAGE);
         Pattern patternName = Pattern.compile("[a-zA-Z]{3,20}");

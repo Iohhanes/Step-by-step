@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CartItemRepository extends JpaRepository<CartItem,Long> {
+public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     CartItem findByBoardGame(BoardGame boardGame);
+
+    List<CartItem> findAllByBoardGame(BoardGame boardGame);
 
     List<CartItem> findByCart(Cart cart);
 

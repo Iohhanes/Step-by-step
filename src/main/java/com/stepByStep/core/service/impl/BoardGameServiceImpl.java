@@ -7,15 +7,17 @@ import com.stepByStep.core.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
 public class BoardGameServiceImpl implements BoardGameService {
 
+    private static final int EMPTY_TITLE_LENGTH_VALUE = 0;
+
     private BoardGameRepository boardGameRepository;
     private StorageService storageService;
+
 
     @Autowired
     public BoardGameServiceImpl(BoardGameRepository boardGameRepository, StorageService storageService) {
@@ -34,13 +36,15 @@ public class BoardGameServiceImpl implements BoardGameService {
     }
 
     @Override
-    public void post(String name, double price, int averageAge, int countPLayers, String description,
-                     MultipartFile file) {
-        BoardGame boardGame = new BoardGame(name, price);
-        boardGame.setAverageAge(averageAge);
-        boardGame.setCountPlayers(countPLayers);
-        boardGame.setDescription(description);
-        boardGame.setFilename(storageService.loadImage(file));
+    public void edit(BoardGame boardGame, BoardGame boardGameForm) {
+        boardGame.setTitle(boardGameForm.getTitle());
+        boardGame.setPrice(boardGameForm.getPrice());
+        boardGame.setAge(boardGameForm.getAge());
+        boardGame.setCountPlayers(boardGameForm.getCountPlayers());
+        boardGame.setDescription(boardGameForm.getDescription());
+        if (boardGameForm.getFilename() != null) {
+            boardGame.setFilename(boardGameForm.getFilename());
+        }
         boardGameRepository.save(boardGame);
     }
 
@@ -56,12 +60,17 @@ public class BoardGameServiceImpl implements BoardGameService {
 
     @Override
     public List<BoardGame> findAllOrderByName() {
-        return boardGameRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
+        return boardGameRepository.findAll(new Sort(Sort.Direction.ASC, "title"));
     }
 
     @Override
-    public List<BoardGame> findByAverageAge(int averageAge) {
-        return boardGameRepository.findByAverageAge(averageAge);
+    public List<BoardGame> findByTitle(String title) {
+        return boardGameRepository.findByTitle(title);
+    }
+
+    @Override
+    public List<BoardGame> findByAge(int age) {
+        return boardGameRepository.findByAge(age);
     }
 
     @Override
@@ -72,5 +81,12 @@ public class BoardGameServiceImpl implements BoardGameService {
     @Override
     public List<BoardGame> findByCountPlayers(int countPlayers) {
         return boardGameRepository.findByCountPlayers(countPlayers);
+    }
+
+    @Override
+    public List<BoardGame> findByFilters(String title, Double price, Integer countPlayers, Integer age) {
+        return (title.length() == EMPTY_TITLE_LENGTH_VALUE && price == null && countPlayers == null && age == null) ?
+                boardGameRepository.findAll() : boardGameRepository.findByFilters(title, price, countPlayers, age);
+
     }
 }

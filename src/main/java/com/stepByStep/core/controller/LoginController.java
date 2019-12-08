@@ -1,26 +1,26 @@
 package com.stepByStep.core.controller;
 
-import com.stepByStep.core.service.UserService;
+import com.stepByStep.core.util.ConfigurationPathManger;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import static com.stepByStep.core.util.constants.PageMessageConstant.LOGIN_PAGE_PATH;
+import static com.stepByStep.core.util.constants.ValidationDescriptionConstant.INVALID_LOGIN_DATA_MESSAGE;
 
 @Slf4j
 @Controller
 public class LoginController {
 
-    private UserService userService;
-
-    @Autowired
-    public LoginController(UserService userService) {
-        this.userService = userService;
+    @RequestMapping("/login")
+    public ModelAndView showLoginPage(String error) {
+        ModelAndView modelAndView = new ModelAndView(ConfigurationPathManger.getPath(LOGIN_PAGE_PATH));
+        if (error != null) {
+            log.debug(INVALID_LOGIN_DATA_MESSAGE);
+            modelAndView.addObject("loginDataError", INVALID_LOGIN_DATA_MESSAGE);
+        }
+        return modelAndView;
     }
-
-//    @RequestMapping("/login")
-//    public ModelAndView forwardToLoginPage() {
-//        log.warn("method get");
-//        return new ModelAndView(ConfigurationPathManger.getPath(LOGIN_PAGE_PATH));
-//    }
-
 
 }

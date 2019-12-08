@@ -5,19 +5,24 @@ import com.stepByStep.core.model.entity.Cart;
 import com.stepByStep.core.model.entity.CartItem;
 import com.stepByStep.core.repository.CartItemRepository;
 import com.stepByStep.core.service.CartItemService;
-import com.stepByStep.core.util.constants.TestEnum;
+import com.stepByStep.core.util.ShopElementIsNullChecker;
+import com.stepByStep.core.util.exceptions.NullParameterException;
 import com.stepByStep.core.util.exceptions.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static com.stepByStep.core.util.constants.DataPermissibleConstant.*;
-import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.stepByStep.core.util.constants.DataPermissibleConstant.MAX_PERMISSIBLE_QUANTITY_ITEM;
+import static com.stepByStep.core.util.constants.DataPermissibleConstant.MIN_PERMISSIBLE_QUANTITY_ITEM;
+import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.FOUND_BOARD_GAME_IS_NULL_EXCEPTION;
+import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.INVALID_ITEM_QUANTITY_EXCEPTION;
+
 @Slf4j
 @Service
+@Transactional
 public class CartItemServiceImpl implements CartItemService {
 
     private CartItemRepository cartItemRepository;
@@ -38,16 +43,20 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
+    public void deleteById(Long cartItemId) {
+        cartItemRepository.deleteById(cartItemId);
+    }
+
+    @Override
     public void deleteAllByCart(Cart cart) {
         cartItemRepository.deleteAllByCart(cart);
     }
 
     @Override
-    public CartItem createNewCartItem(BoardGame boardGame, int quantity) throws ServiceException {
-        if (boardGame == null) {
-            log.warn(BOARD_GAME_NOT_FOUND_EXCEPTION);
-            throw new ServiceException(BOARD_GAME_NOT_FOUND_EXCEPTION);
-        }
+    public CartItem createNewCartItem(BoardGame boardGame, int quantity)
+            throws ServiceException, NullParameterException {
+        ShopElementIsNullChecker.checkNull(boardGame,
+                new NullParameterException(FOUND_BOARD_GAME_IS_NULL_EXCEPTION));
         if (quantity <= MIN_PERMISSIBLE_QUANTITY_ITEM || quantity >= MAX_PERMISSIBLE_QUANTITY_ITEM) {
             log.warn(INVALID_ITEM_QUANTITY_EXCEPTION + quantity);
             throw new ServiceException(INVALID_ITEM_QUANTITY_EXCEPTION + quantity);
@@ -77,4 +86,5 @@ public class CartItemServiceImpl implements CartItemService {
     public List<CartItem> findAll() {
         return cartItemRepository.findAll();
     }
+
 }

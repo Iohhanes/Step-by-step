@@ -26,6 +26,7 @@
         <slf4j.sample.version>1.6.4</slf4j.sample.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <common-validator-version>1.4.1</common-validator-version>
+        <commons-fileupload-version>1.4</commons-fileupload-version>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <maven.war.plugin.version>3.1.0</maven.war.plugin.version>
         <java.version>1.8</java.version>
@@ -140,6 +141,11 @@
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>${common-validator-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload-version}</version>
         </dependency>
     </dependencies>
 

@@ -9,7 +9,6 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -21,7 +20,7 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:persistence.properties")
 @EnableJpaRepositories(basePackages = "com.stepByStep.core.repository")
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 public class PersistenceConfig {
 
     private Environment environment;

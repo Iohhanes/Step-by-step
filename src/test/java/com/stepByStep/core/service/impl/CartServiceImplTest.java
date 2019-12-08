@@ -117,52 +117,52 @@ class CartServiceImplTest {
 //        assertEquals(new Cart(), cart);
 //    }
 
-    @ParameterizedTest
-    @CsvSource(value = {"1:2147483634", "2147483634:1", "10:50346586", "566870870:78903", "1000000000:1000000000",
-            "10:9", "2:1000000000", "12345:54321", "1:1"}, delimiter = ':')
-    void extendUserCartCorrectDataAndCartIemExistThenSuccessfulExecute(int currentQuantity, int addedQuantity)
-            throws ServiceException {
-        Cart cart = new Cart();
-        cart.getItems().add(new CartItem(cart, new BoardGame("chess", 10.5), currentQuantity));
-        CartItem addedCartItem = new CartItem(null, new BoardGame("chess", 10.5), addedQuantity);
-        cartService.extendUserCart(cart, addedCartItem);
-        assertEquals(currentQuantity + addedQuantity, cart.getTotalCountItems());
-    }
-
-    @ParameterizedTest
-    @CsvSource(value = {"1:2147483645", "2147483646:1", "1:2147483646", "2147483646:1", "459045:2147024603",
-            "1000000000:2000000000", "11:2147483646", "2147483645:125", "2147483645:2147483646"}, delimiter = ':')
-    void extendUserCartInvalidDataAndCartIemExistThenThrowException(int currentQuantity, int addedQuantity) {
-        Cart cart = new Cart();
-        cart.getItems().add(new CartItem(cart, new BoardGame("chess", 10.5), currentQuantity));
-        CartItem addedCartItem = new CartItem(null, new BoardGame("chess", 10.5), addedQuantity);
-        assertThrows(ServiceException.class, () -> {
-            cartService.extendUserCart(cart, addedCartItem);
-        });
-    }
-
-    @ParameterizedTest
-    @CsvSource(value = {"1:1", "2147483645:1", "2147483645:2147483645", "10:1", "2147483645:78903",
-            "1000000000:999999999", "456800:456789", "12345:12345", "999999:999998"}, delimiter = ':')
-    void reduceUserCartCorrectDataThenSuccessfulExecute(int currentQuantity, int removedQuantity)
-            throws ServiceException {
-        Cart cart = new Cart();
-        CartItem cartItem = new CartItem(null, new BoardGame("chess", 10.5), currentQuantity);
-        cart.getItems().add(cartItem);
-        cartService.reduceUserCart(cart, cartItem, removedQuantity);
-        assertEquals(currentQuantity - removedQuantity, cart.getTotalCountItems());
-    }
-
-    @ParameterizedTest
-    @CsvSource(value = {"1:2","1:-1", "2147483645:-2147483645", "1:10", "78903:2147483645", "999999999:1000000000",
-            "456789:456800","2147483645:-12345","100:-999999999"}, delimiter = ':')
-    void reduceUserCartInvalidDataThenThrowException(int currentQuantity, int removedQuantity) {
-        Cart cart = new Cart();
-        CartItem cartItem = new CartItem(null, new BoardGame("chess", 10.5), currentQuantity);
-        cart.getItems().add(cartItem);
-        assertThrows(ServiceException.class, () -> {
-            cartService.reduceUserCart(cart, cartItem, removedQuantity);
-        });
-    }
+//    @ParameterizedTest
+//    @CsvSource(value = {"1:2147483634", "2147483634:1", "10:50346586", "566870870:78903", "1000000000:1000000000",
+//            "10:9", "2:1000000000", "12345:54321", "1:1"}, delimiter = ':')
+//    void extendUserCartCorrectDataAndCartIemExistThenSuccessfulExecute(int currentQuantity, int addedQuantity)
+//            throws ServiceException {
+//        Cart cart = new Cart();
+//        cart.getItems().add(new CartItem(cart, new BoardGame("chess", 10.5), currentQuantity));
+//        CartItem addedCartItem = new CartItem(null, new BoardGame("chess", 10.5), addedQuantity);
+//        cartService.extendUserCart(cart, addedCartItem);
+//        assertEquals(currentQuantity + addedQuantity, cart.getTotalCountItems());
+//    }
+//
+//    @ParameterizedTest
+//    @CsvSource(value = {"1:2147483645", "2147483646:1", "1:2147483646", "2147483646:1", "459045:2147024603",
+//            "1000000000:2000000000", "11:2147483646", "2147483645:125", "2147483645:2147483646"}, delimiter = ':')
+//    void extendUserCartInvalidDataAndCartIemExistThenThrowException(int currentQuantity, int addedQuantity) {
+//        Cart cart = new Cart();
+//        cart.getItems().add(new CartItem(cart, new BoardGame("chess", 10.5), currentQuantity));
+//        CartItem addedCartItem = new CartItem(null, new BoardGame("chess", 10.5), addedQuantity);
+//        assertThrows(ServiceException.class, () -> {
+//            cartService.extendUserCart(cart, addedCartItem);
+//        });
+//    }
+//
+//    @ParameterizedTest
+//    @CsvSource(value = {"1:1", "2147483645:1", "2147483645:2147483645", "10:1", "2147483645:78903",
+//            "1000000000:999999999", "456800:456789", "12345:12345", "999999:999998"}, delimiter = ':')
+//    void reduceUserCartCorrectDataThenSuccessfulExecute(int currentQuantity, int removedQuantity)
+//            throws ServiceException {
+//        Cart cart = new Cart();
+//        CartItem cartItem = new CartItem(null, new BoardGame("chess", 10.5), currentQuantity);
+//        cart.getItems().add(cartItem);
+//        cartService.reduceUserCart(cart, cartItem, removedQuantity);
+//        assertEquals(currentQuantity - removedQuantity, cart.getTotalCountItems());
+//    }
+//
+//    @ParameterizedTest
+//    @CsvSource(value = {"1:2","1:-1", "2147483645:-2147483645", "1:10", "78903:2147483645", "999999999:1000000000",
+//            "456789:456800","2147483645:-12345","100:-999999999"}, delimiter = ':')
+//    void reduceUserCartInvalidDataThenThrowException(int currentQuantity, int removedQuantity) {
+//        Cart cart = new Cart();
+//        CartItem cartItem = new CartItem(null, new BoardGame("chess", 10.5), currentQuantity);
+//        cart.getItems().add(cartItem);
+//        assertThrows(ServiceException.class, () -> {
+//            cartService.reduceUserCart(cart, cartItem, removedQuantity);
+//        });
+//    }
 
 }

@@ -50,32 +50,32 @@ class CartItemServiceImplTest {
 
     }
 
-    @Test
-    void createNewCartItemSuccessfulThenReturnNewCartItem() throws ServiceException {
-        CartItem expected = new CartItem();
-        expected.setQuantity(10);
-        expected.setBoardGame(new BoardGame("chess", 10.5));
-        assertEquals(expected, cartItemService.
-                createNewCartItem(new BoardGame("chess", 10.5), 10));
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {1, Integer.MAX_VALUE - 2, 2, Integer.MAX_VALUE - 10, 1000000000, 1534678000, 457893210})
-    void createNewCartItemCorrectQuantityThenReturnNewCartItem(int quantity) throws ServiceException {
-        CartItem newCartItem = new CartItem();
-        BoardGame boardGame = new BoardGame("chess", 10.5);
-        newCartItem.setQuantity(quantity);
-        newCartItem.setBoardGame(boardGame);
-        assertEquals(newCartItem, cartItemService.createNewCartItem(boardGame, quantity));
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {0, Integer.MAX_VALUE - 1, Integer.MAX_VALUE, -50, -1000000, -234567890})
-    void createNewCartItemInvalidQuantityThenThrowException(int quantity) {
-        assertThrows(ServiceException.class,
-                () -> {
-                    cartItemService.createNewCartItem(new BoardGame("chess", 10.5), quantity);
-                });
-    }
+//    @Test
+//    void createNewCartItemSuccessfulThenReturnNewCartItem() throws ServiceException {
+//        CartItem expected = new CartItem();
+//        expected.setQuantity(10);
+//        expected.setBoardGame(new BoardGame("chess", 10.5));
+//        assertEquals(expected, cartItemService.
+//                createNewCartItem(new BoardGame("chess", 10.5), 10));
+//    }
+//
+//    @ParameterizedTest
+//    @ValueSource(ints = {1, Integer.MAX_VALUE - 2, 2, Integer.MAX_VALUE - 10, 1000000000, 1534678000, 457893210})
+//    void createNewCartItemCorrectQuantityThenReturnNewCartItem(int quantity) throws ServiceException {
+//        CartItem newCartItem = new CartItem();
+//        BoardGame boardGame = new BoardGame("chess", 10.5);
+//        newCartItem.setQuantity(quantity);
+//        newCartItem.setBoardGame(boardGame);
+//        assertEquals(newCartItem, cartItemService.createNewCartItem(boardGame, quantity));
+//    }
+//
+//    @ParameterizedTest
+//    @ValueSource(ints = {0, Integer.MAX_VALUE - 1, Integer.MAX_VALUE, -50, -1000000, -234567890})
+//    void createNewCartItemInvalidQuantityThenThrowException(int quantity) {
+//        assertThrows(ServiceException.class,
+//                () -> {
+//                    cartItemService.createNewCartItem(new BoardGame("chess", 10.5), quantity);
+//                });
+//    }
 
 }

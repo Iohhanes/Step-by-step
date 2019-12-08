@@ -1,11 +1,13 @@
 package com.stepByStep.core.model.entity;
 
-import lombok.*;
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,15 +16,17 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
 
     private String username;
+
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Order> orders;
 
     @Enumerated(EnumType.STRING)
@@ -33,11 +37,12 @@ public class User implements UserDetails {
     }
 
     @Builder
-    public User(String username, String password, Set<Order> orders, Role role) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.orders = orders;
-        this.role = role;
+        this.orders = new HashSet<>();
+        this.role = Role.ROLE_USER;
+        this.cart = new Cart(this);
     }
 
     public Long getId() {
@@ -91,12 +96,16 @@ public class User implements UserDetails {
     }
 
     public boolean isAdmin() {
-        return role == Role.ADMIN;
+        return role == Role.ROLE_ADMIN;
+    }
+
+    public String getString() {
+        return getAuthorities().toString();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return EnumSet.of(getRole());
     }
 
     @Override

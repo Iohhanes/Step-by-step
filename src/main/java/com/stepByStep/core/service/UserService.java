@@ -9,5 +9,7 @@ public interface UserService extends UserDetailsService {
 
     User findById(Long userId);
 
-    boolean addUser(String username, String password);
+    void addUser(String username, String password);
+
+    void delete(User user);
 }

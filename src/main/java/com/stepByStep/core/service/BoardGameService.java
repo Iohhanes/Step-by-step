@@ -1,8 +1,6 @@
 package com.stepByStep.core.service;
 
 import com.stepByStep.core.model.entity.BoardGame;
-import com.stepByStep.core.util.exceptions.ServiceException;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,7 +10,7 @@ public interface BoardGameService {
 
     void delete(BoardGame boardGame);
 
-    void post(String name, double price, int averageAge, int countPLayers, String description, MultipartFile file);
+    void edit(BoardGame boardGame, BoardGame boardGameForm);
 
     BoardGame findById(Long boardGameId);
 
@@ -20,10 +18,15 @@ public interface BoardGameService {
 
     List<BoardGame> findAllOrderByName();
 
-    List<BoardGame> findByAverageAge(int averageAge);
+    List<BoardGame> findByTitle(String title);
+
+    List<BoardGame> findByAge(int age);
 
     List<BoardGame> findByPrice(double price);
 
     List<BoardGame> findByCountPlayers(int countPlayers);
+
+    List<BoardGame> findByFilters(String title, Double price, Integer countPlayers, Integer age);
+
 
 }

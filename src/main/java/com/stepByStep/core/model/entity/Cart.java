@@ -1,30 +1,29 @@
 package com.stepByStep.core.model.entity;
 
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "carts")
-public class Cart {
+public class Cart implements Serializable {
 
     public static final int DEFAULT_TOTAL_COUNT_ITEMS = 0;
     public static final double DEFAULT_TOTAL_COST = 0.0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "cart_id")
     private Long id;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
     private List<CartItem> items;
-
 
     @Column(name = "total_count_items")
     private int totalCountItems;
