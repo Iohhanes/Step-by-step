@@ -16,21 +16,21 @@ public class Order {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "customer_id", nullable = false)
+    private User customer;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "board_game_id")
     private BoardGame boardGame;
 
-    @Column(nullable = false)
-    private String email;
+    @Column(name = "customer_email", nullable = false)
+    private String customerEmail;
 
-    @Column(nullable = false, length = 7)
-    private String phone;
+    @Column(name = "customer_phone", nullable = false, length = 7)
+    private String customerPhone;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name = "customer_name", nullable = false)
+    private String customerName;
 
     @Column(nullable = false)
     private int quantity;
@@ -45,19 +45,24 @@ public class Order {
 
 
     public Order() {
-
+        init();
     }
 
     @Builder
-    public Order(User user, BoardGame boardGame, String email, String phone, String name, int quantity) {
-        this.user = user;
+    public Order(User customer, BoardGame boardGame, String customerEmail, String customerPhone, String customerName,
+                 int quantity) {
+        this.customer = customer;
         this.boardGame = boardGame;
-        this.email = email;
-        this.phone = phone;
-        this.name = name;
+        this.customerEmail = customerEmail;
+        this.customerPhone = customerPhone;
+        this.customerName = customerName;
         this.quantity = quantity;
-        this.dateCreated = new Date();
-        this.status = OrderStatus.WAITED_DELIVERY;
+        init();
+    }
+
+    private void init() {
+        dateCreated = new Date();
+        status = OrderStatus.WAITED_DELIVERY;
     }
 
     public Long getId() {
@@ -68,12 +73,12 @@ public class Order {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public User getCustomer() {
+        return customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(User customer) {
+        this.customer = customer;
     }
 
     public BoardGame getBoardGame() {
@@ -84,28 +89,28 @@ public class Order {
         this.boardGame = boardGame;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCustomerEmail() {
+        return customerEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCustomerPhone() {
+        return customerPhone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
     }
 
-    public String getName() {
-        return name;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public int getQuantity() {
@@ -132,6 +137,10 @@ public class Order {
         this.status = status;
     }
 
+    public boolean isDelivered() {
+        return status == OrderStatus.DELIVERED;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -139,17 +148,18 @@ public class Order {
         Order order = (Order) o;
         return quantity == order.quantity &&
                 id.equals(order.id) &&
-                user.equals(order.user) &&
+                customer.equals(order.customer) &&
                 boardGame.equals(order.boardGame) &&
-                email.equals(order.email) &&
-                phone.equals(order.phone) &&
-                name.equals(order.name) &&
+                customerEmail.equals(order.customerEmail) &&
+                customerPhone.equals(order.customerPhone) &&
+                customerName.equals(order.customerName) &&
                 dateCreated.equals(order.dateCreated) &&
                 status == order.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, boardGame, email, phone, name, quantity, dateCreated, status);
+        return Objects.hash(id, customer, boardGame, customerEmail, customerPhone, customerName, quantity, dateCreated,
+                status);
     }
 }

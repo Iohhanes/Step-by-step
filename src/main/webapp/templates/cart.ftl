@@ -5,9 +5,9 @@
 <@common.page>
     <link rel="stylesheet" href="static/css/cart_template.css" type="text/css">
     <#if isActive && !isAdmin>
-        <form action="clearUserCart" method="post">
+        <form action="cleaning-up-user-cart" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button class="btn primary clear" type="submit">Clear cart</button>
+            <button class="btn success clear" type="submit">Clear cart</button>
         </form>
     </#if>
     <@cart_item_list.page/>

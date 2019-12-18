@@ -1,19 +1,20 @@
 package com.stepByStep.core.controller;
 
 import com.stepByStep.core.util.ConfigurationPathManger;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import static com.stepByStep.core.util.constants.PageMessageConstant.LOGIN_PAGE_PATH;
 import static com.stepByStep.core.util.constants.ValidationDescriptionConstant.INVALID_LOGIN_DATA_MESSAGE;
+import static com.stepByStep.core.util.constants.URLValueConstant.*;
 
-@Slf4j
+@Log4j2
 @Controller
 public class LoginController {
 
-    @RequestMapping("/login")
+    @RequestMapping(value = LOGIN_URL)
     public ModelAndView showLoginPage(String error) {
         ModelAndView modelAndView = new ModelAndView(ConfigurationPathManger.getPath(LOGIN_PAGE_PATH));
         if (error != null) {

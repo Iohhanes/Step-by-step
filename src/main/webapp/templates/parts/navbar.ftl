@@ -19,10 +19,15 @@
                 <li class="nav-item ">
                     <a class="nav-link" href="cart">Cart<span class="sr-only">(current)</span></a>
                 </li>
-            </#if>
-            <#if isActive>
                 <li class="nav-item ">
-                    <a class="nav-link" href="orders">Orders<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="orders-history">Orders History<span class="sr-only">(current)</span></a>
+                </li>
+            </#if>
+            <#if isAdmin>
+                <li class="nav-item ">
+                    <a class="nav-link" href="orders-management">
+                        Orders Management
+                        <span class="sr-only">(current)</span></a>
                 </li>
             </#if>
         </ul>

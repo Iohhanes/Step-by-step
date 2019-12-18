@@ -3,8 +3,8 @@
 <#import "/spring.ftl" as spring/>
 
 <@common.page>
-    <form action="<@spring.url '/editBoardGame'/>" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="boardGameFormId" value="${boardGameForm.id}"/>
+    <form action="<@spring.url '/editing-board-game'/>" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="boardGameFormId" value="${boardGameForm.id!}"/>
         <@board_game_form.page/>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <button class="btn warning apply" type="submit">

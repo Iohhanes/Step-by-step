@@ -8,7 +8,7 @@ import com.stepByStep.core.service.CartItemService;
 import com.stepByStep.core.util.ShopElementIsNullChecker;
 import com.stepByStep.core.util.exceptions.NullParameterException;
 import com.stepByStep.core.util.exceptions.ServiceException;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ import static com.stepByStep.core.util.constants.DataPermissibleConstant.MIN_PER
 import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.FOUND_BOARD_GAME_IS_NULL_EXCEPTION;
 import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.INVALID_ITEM_QUANTITY_EXCEPTION;
 
-@Slf4j
+@Log4j2
 @Service
 @Transactional
 public class CartItemServiceImpl implements CartItemService {
@@ -53,8 +53,8 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public CartItem createNewCartItem(BoardGame boardGame, int quantity)
-            throws ServiceException, NullParameterException {
+    public CartItem createNewCartItem(BoardGame boardGame, int quantity) throws ServiceException,
+            NullParameterException {
         ShopElementIsNullChecker.checkNull(boardGame,
                 new NullParameterException(FOUND_BOARD_GAME_IS_NULL_EXCEPTION));
         if (quantity <= MIN_PERMISSIBLE_QUANTITY_ITEM || quantity >= MAX_PERMISSIBLE_QUANTITY_ITEM) {

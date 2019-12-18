@@ -15,8 +15,12 @@ public interface OrderService {
 
     Order findById(Long orderId);
 
-    List<Order> findAllByUser(User user);
+    List<Order> findAll();
+
+    List<Order> findAllByCustomer(User customer);
 
     void place(User user, Order order) throws NullParameterException, ServiceException;
+
+    void changeStatus(Order order) throws NullParameterException;
 
 }

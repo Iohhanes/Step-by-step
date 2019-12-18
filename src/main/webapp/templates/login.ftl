@@ -2,7 +2,7 @@
 
 <@common.page>
     <link rel="stylesheet" href="static/css/login_template.css" type="text/css">
-    <form action="loginProcessing" method="post">
+    <form action="login-processing" method="post">
         <div class="col-sm-4 text-center first-input">
             <input type="text" name="username" class="form-control" placeholder="Username"/>
         </div>

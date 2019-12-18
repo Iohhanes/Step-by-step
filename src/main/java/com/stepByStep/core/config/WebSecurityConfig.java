@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.stepByStep.core.util.constants.URLValueConstant.*;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -31,13 +33,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/store", "/registration", "/static/**", "/images/**", "/boardGame-**")
+                .antMatchers(MAIN_PAGE_URL, STORE_URL, REGISTRATION_URL, STATIC_RESOURCES_URL, IMAGES_URL,
+                        BOARD_GAME_DETAILS_PATTERN_URL, SORTING_ALPHABETICALLY_BOARD_GAMES_URL, SEARCH_BOARD_GAME_URL)
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/loginProcessing")
+                .loginPage(LOGIN_URL)
+                .loginProcessingUrl(LOGIN_PROCESSING_URL)
                 .permitAll()
                 .and()
                 .logout().permitAll();

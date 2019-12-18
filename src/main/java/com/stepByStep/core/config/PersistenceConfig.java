@@ -46,7 +46,6 @@ public class PersistenceConfig {
                 new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        //jpaVendorAdapter.setGenerateDdl(true);
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter);
         entityManagerFactory.setPackagesToScan("com.stepByStep.core.model");
 

@@ -4,7 +4,7 @@ import com.stepByStep.core.model.entity.User;
 import com.stepByStep.core.repository.CartRepository;
 import com.stepByStep.core.repository.UserRepository;
 import com.stepByStep.core.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.USERNAME_NOT_FOUND_MESSAGE;
 
-@Slf4j
+@Log4j2
 @Service
 public class UserServiceImpl implements UserService {
 

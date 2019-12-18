@@ -23,10 +23,10 @@ public class User implements UserDetails {
 
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Cart cart;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private Set<Order> orders;
 
     @Enumerated(EnumType.STRING)
@@ -41,7 +41,7 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.orders = new HashSet<>();
-        this.role = Role.ROLE_USER;
+        this.role = Role.ROLE_CUSTOMER;
         this.cart = new Cart(this);
     }
 

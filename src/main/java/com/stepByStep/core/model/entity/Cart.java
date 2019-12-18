@@ -19,8 +19,8 @@ public class Cart implements Serializable {
     private Long id;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "user_id", unique = true, nullable = false)
-    private User user;
+    @JoinColumn(name = "customer_id", unique = true, nullable = false)
+    private User customer;
 
     @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
     private List<CartItem> items;
@@ -35,8 +35,8 @@ public class Cart implements Serializable {
         init();
     }
 
-    public Cart(User user) {
-        this.user = user;
+    public Cart(User customer) {
+        this.customer = customer;
         init();
     }
 
@@ -54,12 +54,12 @@ public class Cart implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public User getCustomer() {
+        return customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(User customer) {
+        this.customer = customer;
     }
 
     public List<CartItem> getItems() {
@@ -95,12 +95,13 @@ public class Cart implements Serializable {
         return totalCountItems == cart.totalCountItems &&
                 Double.compare(cart.totalCost, totalCost) == 0 &&
                 id.equals(cart.id) &&
-                Objects.equals(user, cart.user) &&
+                Objects.equals(customer, cart.customer) &&
                 items.equals(cart.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, items, totalCountItems, totalCost);
+        return Objects.hash(id, customer, items, totalCountItems, totalCost);
     }
+
 }

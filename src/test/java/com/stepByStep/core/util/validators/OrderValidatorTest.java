@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.validation.Errors;
 
+import static com.stepByStep.core.util.constants.ValidationDescriptionConstant.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -23,6 +24,10 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @WebAppConfiguration
 @ContextConfiguration(classes = {WebAppTestConfig.class})
 class OrderValidatorTest {
+
+    private static final String CUSTOMER_NAME_IN_ORDER_FIELD_NAME = "customerName";
+    private static final String CUSTOMER_EMAIL_IN_ORDER_FIELD_NAME = "customerEmail";
+    private static final String CUSTOMER_PHONE_IN_ORDER_FIELD_NAME = "customerPhone";
 
     @Mock
     private Errors errors;
@@ -46,9 +51,9 @@ class OrderValidatorTest {
     }
 
     private void fillOrder(String name, String email, String phone) {
-        order.setName(name);
-        order.setEmail(email);
-        order.setPhone(phone);
+        order.setCustomerName(name);
+        order.setCustomerEmail(email);
+        order.setCustomerPhone(phone);
     }
 
     @ParameterizedTest
@@ -57,7 +62,7 @@ class OrderValidatorTest {
     void validateCorrectNameAndCorrectEmailAndCorrectPhoneThenNotCallErrors(String name, String email, String phone) {
         fillOrder(name, email, phone);
         orderValidator.validate(order, errors);
-        verify(errors,times(0)).rejectValue(anyString(),anyString());
+        verify(errors, times(0)).rejectValue(anyString(), anyString());
     }
 
     @ParameterizedTest
@@ -66,11 +71,12 @@ class OrderValidatorTest {
                                                                                    String phone) {
         fillOrder(name, email, phone);
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("name"),
-                eq("Please use between 3 and 20 characters"));
-        verify(errors, times(1)).rejectValue(eq("email"), eq("Incorrect email"));
-        verify(errors, times(1)).rejectValue(eq("phone"),
-                eq("The phone number cannot be less than 7 characters and must contain only numbers"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_NAME_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_NAME_IN_ORDER_MESSAGE));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_EMAIL_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_EMAIL_IN_ORDER_MESSAGE));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_PHONE_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_PHONE_IN_ORDER_MESSAGE));
     }
 
     @ParameterizedTest
@@ -80,8 +86,8 @@ class OrderValidatorTest {
                                                                                  String phone) {
         fillOrder(name, email, phone);
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("name"),
-                eq("Please use between 3 and 20 characters"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_NAME_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_NAME_IN_ORDER_MESSAGE));
     }
 
     @ParameterizedTest
@@ -91,8 +97,8 @@ class OrderValidatorTest {
                                                                                  String phone) {
         fillOrder(name, email, phone);
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("email"),
-                eq("Incorrect email"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_EMAIL_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_EMAIL_IN_ORDER_MESSAGE));
     }
 
     @ParameterizedTest
@@ -102,8 +108,8 @@ class OrderValidatorTest {
                                                                                  String phone) {
         fillOrder(name, email, phone);
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("phone"),
-                eq("The phone number cannot be less than 7 characters and must contain only numbers"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_PHONE_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_PHONE_IN_ORDER_MESSAGE));
     }
 
     @ParameterizedTest
@@ -113,9 +119,10 @@ class OrderValidatorTest {
                                                                                  String phone) {
         fillOrder(name, email, phone);
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("name"),
-                eq("Please use between 3 and 20 characters"));
-        verify(errors, times(1)).rejectValue(eq("email"), eq("Incorrect email"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_NAME_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_NAME_IN_ORDER_MESSAGE));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_EMAIL_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_EMAIL_IN_ORDER_MESSAGE));
     }
 
     @ParameterizedTest
@@ -125,10 +132,10 @@ class OrderValidatorTest {
                                                                                  String phone) {
         fillOrder(name, email, phone);
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("name"),
-                eq("Please use between 3 and 20 characters"));
-        verify(errors, times(1)).rejectValue(eq("phone"),
-                eq("The phone number cannot be less than 7 characters and must contain only numbers"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_NAME_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_NAME_IN_ORDER_MESSAGE));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_PHONE_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_PHONE_IN_ORDER_MESSAGE));
     }
 
     @ParameterizedTest
@@ -138,24 +145,24 @@ class OrderValidatorTest {
                                                                                  String phone) {
         fillOrder(name, email, phone);
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("email"),
-                eq("Incorrect email"));
-        verify(errors, times(1)).rejectValue(eq("phone"),
-                eq("The phone number cannot be less than 7 characters and must contain only numbers"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_EMAIL_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_EMAIL_IN_ORDER_MESSAGE));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_PHONE_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_PHONE_IN_ORDER_MESSAGE));
     }
 
     @ParameterizedTest
     @EmptySource
     @ValueSource(strings = {"          "})
     void validateEmptyOrWhitespaceNameAndCorrectEmailAndCorrectPhoneThenErrorsHasOneFieldError(String name) {
-        order.setName(name);
-        order.setEmail("helloworld@mail.ru");
-        order.setPhone("3753999");
+        order.setCustomerName(name);
+        order.setCustomerEmail("helloworld@mail.ru");
+        order.setCustomerPhone("3753999");
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("name"),
-                eq("This field is required"), eq(null), eq(null));
-        verify(errors, times(1)).rejectValue(eq("name"),
-                eq("Please use between 3 and 20 characters"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_NAME_IN_ORDER_FIELD_NAME),
+                eq(EMPTY_FIELD_MESSAGE), eq(null), eq(null));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_NAME_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_NAME_IN_ORDER_MESSAGE));
     }
 
 
@@ -163,26 +170,27 @@ class OrderValidatorTest {
     @EmptySource
     @ValueSource(strings = {"      "})
     void validateCorrectNameAndEmptyOrWhitespaceEmailAndCorrectPhoneThenErrorsHasOneFieldError(String email) {
-        order.setName("ivan");
-        order.setEmail(email);
-        order.setPhone("37533999");
+        order.setCustomerName("ivan");
+        order.setCustomerEmail(email);
+        order.setCustomerPhone("37533999");
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("email"),
-                eq("This field is required"), eq(null), eq(null));
-        verify(errors, times(1)).rejectValue(eq("email"), eq("Incorrect email"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_EMAIL_IN_ORDER_FIELD_NAME),
+                eq(EMPTY_FIELD_MESSAGE), eq(null), eq(null));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_EMAIL_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_EMAIL_IN_ORDER_MESSAGE));
     }
 
     @ParameterizedTest
     @EmptySource
     @ValueSource(strings = {"       "})
     void validateCorrectNameAndCorrectEmailAndEmptyOrWhitespacePhoneThenErrorsHasOneFieldError(String phone) {
-        order.setName("ivan");
-        order.setEmail("helloworld@mail.ru");
-        order.setPhone(phone);
+        order.setCustomerName("ivan");
+        order.setCustomerEmail("helloworld@mail.ru");
+        order.setCustomerPhone(phone);
         orderValidator.validate(order, errors);
-        verify(errors, times(1)).rejectValue(eq("phone"),
-                eq("This field is required"), eq(null), eq(null));
-        verify(errors, times(1)).rejectValue(eq("phone"),
-                eq("The phone number cannot be less than 7 characters and must contain only numbers"));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_PHONE_IN_ORDER_FIELD_NAME),
+                eq(EMPTY_FIELD_MESSAGE), eq(null), eq(null));
+        verify(errors, times(1)).rejectValue(eq(CUSTOMER_PHONE_IN_ORDER_FIELD_NAME),
+                eq(INVALID_CUSTOMER_PHONE_IN_ORDER_MESSAGE));
     }
 }

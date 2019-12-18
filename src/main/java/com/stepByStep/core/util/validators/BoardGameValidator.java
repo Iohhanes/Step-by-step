@@ -27,43 +27,44 @@ public class BoardGameValidator implements Validator {
     public void validate(Object obj, Errors errors) {
         BoardGame boardGame = (BoardGame) obj;
         validateTitle(boardGame, errors);
-        validateDescription(boardGame,errors);
-        validatePrice(boardGame,errors);
-        validateAge(boardGame,errors);
-        validateCountPlayers(boardGame,errors);
+        validateDescription(boardGame, errors);
+        validatePrice(boardGame, errors);
+        validateAge(boardGame, errors);
+        validateCountPlayers(boardGame, errors);
 
     }
 
     private void validateTitle(BoardGame boardGame, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, TITLE_FILED_NAME, EMPTY_FIELD_MESSAGE);
-        if (boardGame.getTitle().length() < MIN_PERMISSIBLE_LENGTH_BOARD_GAME_TITLE &&
+        if (boardGame.getTitle().length() < MIN_PERMISSIBLE_LENGTH_BOARD_GAME_TITLE ||
                 boardGame.getTitle().length() > MAX_PERMISSIBLE_LENGTH_BOARD_GAME_TITLE) {
             errors.rejectValue(TITLE_FILED_NAME, INVALID_TITLE_MESSAGE);
         }
     }
 
     private void validateDescription(BoardGame boardGame, Errors errors) {
-        if (boardGame.getDescription().length() > MAX_PERMISSIBLE_LENGTH_BOARD_GAME_DESCRIPTION) {
+        if (boardGame.getDescription() != null &&
+                boardGame.getDescription().length() > MAX_PERMISSIBLE_LENGTH_BOARD_GAME_DESCRIPTION) {
             errors.rejectValue(DESCRIPTION_FIELD_NAME, INVALID_DESCRIPTION_MESSAGE);
         }
     }
 
     private void validatePrice(BoardGame boardGame, Errors errors) {
-        if (boardGame.getPrice() < MIN_PERMISSIBLE_BOARD_GAME_PRICE &&
+        if (boardGame.getPrice() < MIN_PERMISSIBLE_BOARD_GAME_PRICE ||
                 boardGame.getPrice() > MAX_PERMISSIBLE_BOARD_GAME_PRICE) {
             errors.rejectValue(PRICE_FIELD_NAME, INVALID_PRICE_MESSAGE);
         }
     }
 
     private void validateAge(BoardGame boardGame, Errors errors) {
-        if (boardGame.getAge() < MIN_PERMISSIBLE_BOARD_GAME_AGE &&
+        if (boardGame.getAge() < MIN_PERMISSIBLE_BOARD_GAME_AGE ||
                 boardGame.getAge() > MAX_PERMISSIBLE_BOARD_GAME_AGE) {
             errors.rejectValue(AGE_FIELD_NAME, INVALID_AGE_MESSAGE);
         }
     }
 
     private void validateCountPlayers(BoardGame boardGame, Errors errors) {
-        if (boardGame.getCountPlayers() < MIN_PERMISSIBLE_BOARD_GAME_COUNT_PLAYERS &&
+        if (boardGame.getCountPlayers() < MIN_PERMISSIBLE_BOARD_GAME_COUNT_PLAYERS ||
                 boardGame.getCountPlayers() > MAX_PERMISSIBLE_BOARD_GAME_COUNT_PLAYERS) {
             errors.rejectValue(COUNT_PLAYERS_FIELD_NAME, INVALID_COUNT_PLAYERS_MESSAGE);
         }

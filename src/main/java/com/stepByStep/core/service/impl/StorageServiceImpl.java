@@ -1,17 +1,18 @@
 package com.stepByStep.core.service.impl;
 
 import com.stepByStep.core.service.StorageService;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
-@Slf4j
+@Log4j2
 @Service
 @PropertySource("classpath:application.properties")
 public class StorageServiceImpl implements StorageService {
@@ -37,5 +38,20 @@ public class StorageServiceImpl implements StorageService {
             }
         }
         return filename;
+    }
+
+    @Override
+    public boolean deleteImage(String filename) {
+        boolean resultDeleting = false;
+        if (filename != null) {
+            File file = new File(environment.getProperty("upload.path") + filename);
+            if (file.exists()) {
+                resultDeleting = file.delete();
+                log.debug("Result of deleting a file from the server :{}", resultDeleting);
+            } else {
+                log.debug("File {} does not exist", filename);
+            }
+        }
+        return resultDeleting;
     }
 }

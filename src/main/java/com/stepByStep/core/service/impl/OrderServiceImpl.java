@@ -2,6 +2,7 @@ package com.stepByStep.core.service.impl;
 
 import com.stepByStep.core.model.entity.CartItem;
 import com.stepByStep.core.model.entity.Order;
+import com.stepByStep.core.model.entity.OrderStatus;
 import com.stepByStep.core.model.entity.User;
 import com.stepByStep.core.repository.OrderRepository;
 import com.stepByStep.core.service.CartItemService;
@@ -10,7 +11,7 @@ import com.stepByStep.core.service.OrderService;
 import com.stepByStep.core.util.ShopElementIsNullChecker;
 import com.stepByStep.core.util.exceptions.NullParameterException;
 import com.stepByStep.core.util.exceptions.ServiceException;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ import java.util.Set;
 
 import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.INPUT_ORDER_IS_NULL_EXCEPTION;
 
-@Slf4j
+@Log4j2
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
@@ -53,8 +54,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAllByUser(User user) {
-        return orderRepository.findAllByUser(user);
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public List<Order> findAllByCustomer(User customer) {
+        return orderRepository.findAllByCustomer(customer);
     }
 
     @Override
@@ -67,4 +73,12 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    @Override
+    public void changeStatus(Order order) throws NullParameterException {
+        ShopElementIsNullChecker.checkNull(order, new NullParameterException(INPUT_ORDER_IS_NULL_EXCEPTION));
+        if (order.getStatus() == OrderStatus.WAITED_DELIVERY) {
+            order.setStatus(OrderStatus.DELIVERED);
+        }
+        save(order);
+    }
 }

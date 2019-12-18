@@ -3,7 +3,6 @@ package com.stepByStep.core.service.impl;
 import com.stepByStep.core.model.entity.BoardGame;
 import com.stepByStep.core.repository.BoardGameRepository;
 import com.stepByStep.core.service.BoardGameService;
-import com.stepByStep.core.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,13 +15,10 @@ public class BoardGameServiceImpl implements BoardGameService {
     private static final int EMPTY_TITLE_LENGTH_VALUE = 0;
 
     private BoardGameRepository boardGameRepository;
-    private StorageService storageService;
-
 
     @Autowired
-    public BoardGameServiceImpl(BoardGameRepository boardGameRepository, StorageService storageService) {
+    public BoardGameServiceImpl(BoardGameRepository boardGameRepository) {
         this.boardGameRepository = boardGameRepository;
-        this.storageService = storageService;
     }
 
     @Override

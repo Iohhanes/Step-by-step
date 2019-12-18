@@ -10,7 +10,10 @@ public interface PageMessageConstant {
     String EDIT_BOARD_GAME_PAGE_PATH = "path.page.editBoardGame";
     String CART_PAGE_PATH = "path.page.cart";
     String PLACE_ORDER_PAGE_PATH = "path.page.placeOrder";
-    String HISTORY_ORDERS_PAGE_PATH = "path.page.historyOrders";
+    String ORDERS_HISTORY_PAGE_PATH = "path.page.ordersHistory";
+    String ORDERS_MANAGEMENT_PAGE_PATH = "path.page.ordersManagement";
     String ERROR_PAGE_PATH = "path.page.error";
-    String BOARD_GAME_DETAILS_PATH = "path.page.boardGameDetails";
+    String BOARD_GAME_DETAILS_PAGE_PATH = "path.page.boardGameDetails";
+    String CART_ITEM_DETAILS_PAGE_PATH = "path.page.cartItemDetails";
+    String ORDER_DETAILS_PAGE_PATH = "path.page.orderDetails";
 }

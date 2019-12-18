@@ -1,6 +1,6 @@
-/.idea
-/target
-/logs
-/images
+/images/
+/.idea/
+/target/
+/logs/
 /stepByStep-core.iml
 /stepByStepCore.iml

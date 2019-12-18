@@ -8,9 +8,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import static com.stepByStep.core.util.constants.ValidationDescriptionConstant.*;
-
 import java.util.regex.Pattern;
+
+import static com.stepByStep.core.util.constants.ValidationDescriptionConstant.*;
 
 @Component
 public class UserValidator implements Validator {

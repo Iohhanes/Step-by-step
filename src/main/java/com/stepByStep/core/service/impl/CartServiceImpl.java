@@ -8,7 +8,7 @@ import com.stepByStep.core.service.CartService;
 import com.stepByStep.core.util.ShopElementIsNullChecker;
 import com.stepByStep.core.util.exceptions.NullParameterException;
 import com.stepByStep.core.util.exceptions.ServiceException;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ import static com.stepByStep.core.util.constants.DataPermissibleConstant.MIN_PER
 import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.INPUT_CART_ITEM_IS_NULL_EXCEPTION;
 import static com.stepByStep.core.util.constants.ExceptionDescriptionConstant.INVALID_ITEM_QUANTITY_EXCEPTION;
 
-@Slf4j
+@Log4j2
 @Service
 @Transactional
 public class CartServiceImpl implements CartService {
@@ -65,11 +65,12 @@ public class CartServiceImpl implements CartService {
                 throw new ServiceException(INVALID_ITEM_QUANTITY_EXCEPTION + cartItem.getQuantity());
             }
             currentCartItem.setQuantity(newCartItemQuantity);
+            cartItemService.save(currentCartItem);
         } else {
             items.add(cartItem);
             cartItem.setCart(cart);
+            cartItemService.save(cartItem);
         }
-        cartItemService.save(cartItem);
         revalidateCartMetrics(cart);
     }
 
@@ -89,6 +90,7 @@ public class CartServiceImpl implements CartService {
                     throw new ServiceException(INVALID_ITEM_QUANTITY_EXCEPTION + quantity);
                 }
                 currentCartItem.setQuantity(currentCartItem.getQuantity() - quantity);
+                cartItemService.save(currentCartItem);
             }
             revalidateCartMetrics(cart);
         }

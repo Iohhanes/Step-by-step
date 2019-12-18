@@ -22,10 +22,16 @@
         <#list cartItems as cartItem>
             <tr>
                 <td width="150" class="align-middle">
-                    <#if cartItem.boardGame.filename??>
-                        <img width="150" height="150" src="images/${cartItem.boardGame.filename}"
-                             alt="image board game">
-                    </#if>
+                    <p>
+                        <a style="color: black " href="cart-item-${cartItem.id}">
+                            <#if cartItem.boardGame.filename??>
+                                <img width="150" height="150" src="images/${cartItem.boardGame.filename}"
+                                     alt="image board game">
+                            <#else>
+                                <b>Details</b>
+                            </#if>
+                        </a>
+                    </p>
                 </td>
                 <td width="200" class="text-center align-middle">
                     <b>${cartItem.boardGame.title}</b>
@@ -39,7 +45,7 @@
                 <#if isActive && !isAdmin>
                     <td width="50" class="align-middle">
                         <div class="text-center">
-                            <form action="showPlacingForm" method="post">
+                            <form action="placing-from" method="post">
                                 <input type="hidden" name="cartItemId" value="${cartItem.id}">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <button class="btn success" type="submit">Order</button>
@@ -48,11 +54,11 @@
                     </td>
                     <td width="50" class="align-middle">
                         <div class="text-center">
-                            <form action="deleteItemFromUserCart" method="post">
+                            <form action="deleting-cart-item" method="post">
                                 <input type="hidden" name="cartItemId" value="${cartItem.id}">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group row" style="margin-bottom: 5px">
-                                    <input type="number" name="quantity" min="1" max="${cartItem.quantity}"
+                                    <input type="number" name="quantity" min="1" max="${cartItem.quantity!}"
                                            step="1" value="0" pattern="\d+"/>
                                     <label for="quantityId"> x</label>
                                 </div>
@@ -62,10 +68,6 @@
                     </td>
                 </#if>
             </tr>
-        <#else>
-            <div class="text-center">
-                Cart Items not found
-            </div>
         </#list>
         </tbody>
     </table>

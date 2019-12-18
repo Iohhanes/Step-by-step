@@ -2,11 +2,11 @@
 
 <#macro page>
     <div class="template-search" style="margin-bottom: 15px">
-        <a class="btn primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+        <a class="btn success" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
            aria-controls="collapseExample">Find by</a>
     </div>
     <div class="collapse" id="collapseExample">
-        <form action="findBoardGame" method="post">
+        <form action="search-board-game" method="post">
             <div class="col-sm-4 text-center">
                 <div class="form-group row">
                     <input type="text" name="title" class="form-control" placeholder="Title"/>
@@ -27,18 +27,20 @@
                 </div>
             </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button class="btn primary find" type="submit">Find</button>
+            <button class="btn success find" type="submit">Find</button>
         </form>
     </div>
     <table class="table table-hover">
         <tbody>
         <#list boardGames as boardGame>
             <tr>
-                <td width="150" class="align-middle">
+                <td width="150" class="text-center align-middle">
                     <p>
-                        <a href="boardGame-${boardGame.id}">
+                        <a style="color: black" href="board-game-${boardGame.id}">
                             <#if boardGame.filename??>
                                 <img width="150" height="150" src="images/${boardGame.filename}" alt="image board game">
+                            <#else>
+                                <b>Details</b>
                             </#if>
                         </a>
                     </p>
@@ -52,7 +54,7 @@
                 <#if isActive && !isAdmin>
                     <td width="50" class="align-middle">
                         <div class="text-center">
-                            <form action="addItemToUserCart" method="post">
+                            <form action="adding-board-game-to-user-cart" method="post">
                                 <input type="hidden" name="boardGameId" value="${boardGame.id}">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group row" style="margin-bottom: 5px">
@@ -77,7 +79,7 @@
                 <#if isAdmin>
                     <td width="50" class="align-middle">
                         <div class="text-center">
-                            <form action="showEditingForm" method="post">
+                            <form action="editing-form" method="post">
                                 <input type="hidden" name="boardGameId" value="${boardGame.id}">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <button class="btn warning" type="submit">Edit</button>
@@ -86,7 +88,7 @@
                     </td>
                     <td width="50" class="align-middle">
                         <div class="text-center">
-                            <form action="deleteBoardGame" method="post">
+                            <form action="deleting-board-game" method="post">
                                 <input type="hidden" name="boardGameId" value="${boardGame.id}">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <button class="btn danger" type="submit">Delete</button>

@@ -4,12 +4,12 @@
 
 <@common.page>
     <link rel="stylesheet" href="static/css/store_template.css" type="text/css">
-    <form action="sortAlphabetically" method="post">
+    <form action="sorting-alphabetically-board_games" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <button class="btn primary sort" type="submit">Sort alphabetically</button>
+        <button class="btn success sort" type="submit">Sort alphabetically</button>
     </form>
     <#if isAdmin>
-        <form action="showPostingForm" method="post">
+        <form action="posting-form" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button class="btn warning apply" type="submit">Post new</button>
         </form>

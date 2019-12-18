@@ -34,6 +34,14 @@ a.btn.primary{
     background-color: darkcyan;
 }
 
+a.btn.success{
+    background-color: lightgreen;
+}
+
+a.btn.warning{
+    background-color: darkorange;
+}
+
 b{
     font-size: 30px;
 }

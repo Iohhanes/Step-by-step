@@ -14,6 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
+import static com.stepByStep.core.util.constants.URLValueConstant.*;
+
 @Configuration
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
@@ -53,9 +55,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**")
+        registry.addResourceHandler(IMAGES_URL)
                 .addResourceLocations("file:///" + environment.getRequiredProperty("upload.path"));
-        registry.addResourceHandler("/static/**")
+        registry.addResourceHandler(STATIC_RESOURCES_URL)
                 .addResourceLocations("/static/");
     }
 }
