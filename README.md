@@ -1,3 +1,3 @@
 # Step-by-step
  Board Games Online Store is the university course project.
- Technologies: Spring (Boot, Data, MVC, Security), MySQL, Lombok, Freemarker.
+ Technologies: Spring(Data, MVC, Security), MySQL, Lombok, Freemarker, JUnit, Mockito.
