@@ -2,6 +2,7 @@ package com.stepByStep.core.service.impl;
 
 import com.stepByStep.core.config.AppConfig;
 import com.stepByStep.core.config.PersistenceTestConfig;
+import com.stepByStep.core.config.WebAppTestConfig;
 import com.stepByStep.core.model.entity.Cart;
 import com.stepByStep.core.model.entity.CartItem;
 import com.stepByStep.core.model.entity.Order;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {PersistenceTestConfig.class, AppConfig.class})
+@ContextConfiguration(classes = {WebAppTestConfig.class})
 @Sql(value = {"/sql/create_board_games_before.sql", "/sql/create_users_before.sql","/sql/create_carts_before.sql",
         "/sql/create_cart_items_before.sql", "/sql/update_hibernate_sequence_after.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)

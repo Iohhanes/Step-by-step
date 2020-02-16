@@ -11,6 +11,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -36,8 +37,8 @@ class StorageServiceImplTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        File realFile = new File("C:/Users/User/Desktop/chess.jpg");
-        file = new MockMultipartFile("chess.jpg", new FileInputStream(realFile));
+        File realFile = ResourceUtils.getFile("classpath:test_data/images/chess.png");
+        file = new MockMultipartFile("chess.png", new FileInputStream(realFile));
     }
 
     @AfterEach

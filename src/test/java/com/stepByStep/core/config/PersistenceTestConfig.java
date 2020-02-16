@@ -1,8 +1,10 @@
 package com.stepByStep.core.config;
 
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -22,6 +24,7 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "com.stepByStep.core.repository")
 @EnableTransactionManagement(proxyTargetClass = true)
 public class PersistenceTestConfig {
+
     private Environment environment;
 
     @Autowired
@@ -39,7 +42,17 @@ public class PersistenceTestConfig {
         return dataSource;
     }
 
+    @Bean(initMethod = "migrate")
+    public Flyway flyway(DataSource dataSource) {
+        return Flyway.configure()
+                .baselineOnMigrate(true)
+                .locations("filesystem:" + environment.getRequiredProperty("migration.path"))
+                .dataSource(dataSource)
+                .load();
+    }
+
     @Bean
+    @DependsOn("flyway")
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactory =
                 new LocalContainerEntityManagerFactoryBean();
